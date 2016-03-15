@@ -1,8 +1,16 @@
+build/
+captures/
+.bundle/
+local.properties
+.gradle/
+
+# intellij
+.idea/
 *.iml
-.gradle
-/local.properties
-/.idea/workspace.xml
-/.idea/libraries
+*.iws
+*.ipr
+
+# misc
 .DS_Store
-/build
-/captures
+*~
+*.swp
