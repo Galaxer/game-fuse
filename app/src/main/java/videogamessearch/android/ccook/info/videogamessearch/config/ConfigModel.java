@@ -5,6 +5,9 @@ public class ConfigModel {
     private String apiKey = "";
 
     public String getApiKey() {
+        if (apiKey == null) {
+            return "";
+        }
         return apiKey;
     }
 
