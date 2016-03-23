@@ -27,6 +27,19 @@ public class ConfigManagerTest {
     }
 
     @Test
+    public void testParseConfigJsonEmpty() {
+        ConfigManager configManager = new ConfigManager(null);
+        assertNotNull(configManager.parseConfig(""));
+    }
+
+    @Test
+    public void testParseConfigJsonInvalid() {
+        String invalidJson = "{ 'apiKey': '1234'";
+        ConfigManager configManager = new ConfigManager(null);
+        assertNotNull(configManager.parseConfig(invalidJson));
+    }
+
+    @Test
     public void testGetConfigSuccess() {
         String mockApiKey = "An API key";
         ConfigModel mockConfigModel = new ConfigModel();
