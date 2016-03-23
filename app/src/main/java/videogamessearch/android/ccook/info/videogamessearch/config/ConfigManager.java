@@ -1,44 +1,47 @@
 package videogamessearch.android.ccook.info.videogamessearch.config;
 
-import android.content.Context;
-
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+
+import javax.inject.Inject;
 
 public class ConfigManager {
 
-    private static final String fileName = "config.json";
-    private static final String charEncoding = "UTF-8";
+    public static final String fileName = "config.json";
+    private final BufferedReader bufferedReader;
 
-    public ConfigModel getConfig(Context context) {
-        return parseConfig(readConfig(context));
+    @Inject
+    public ConfigManager(BufferedReader bufferedReader) {
+        this.bufferedReader = bufferedReader;
+    }
+
+    public ConfigModel getConfig() {
+        return parseConfig(readConfig());
     }
 
     public ConfigModel parseConfig(String json) {
+        if (json == null) {
+            return new ConfigModel();
+        }
         return new Gson().fromJson(json, ConfigModel.class);
     }
 
-    public String readConfig(Context context) {
-        String result = null;
-        StringBuilder data = new StringBuilder();
-        BufferedReader bufferedReader = null;
+    public String readConfig() {
+        String result = "";
 
-        try {
-            InputStream inputStream = context.getAssets().open(fileName);
-            bufferedReader = new BufferedReader(new InputStreamReader(inputStream, charEncoding));
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                data.append(line);
-            }
-            result = data.toString();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (bufferedReader != null) {
+        if (bufferedReader != null) {
+            StringBuilder stringBuilder = new StringBuilder();
+            try {
+                String line;
+                while ((line = bufferedReader.readLine()) != null) {
+                    stringBuilder.append(line);
+                }
+                result = stringBuilder.toString();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
                 try {
                     bufferedReader.close();
                 } catch (IOException e) {

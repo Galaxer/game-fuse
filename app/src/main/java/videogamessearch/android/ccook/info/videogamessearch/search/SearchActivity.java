@@ -1,4 +1,4 @@
-package videogamessearch.android.ccook.info.videogamessearch;
+package videogamessearch.android.ccook.info.videogamessearch.search;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -9,14 +9,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import videogamessearch.android.ccook.info.videogamessearch.config.ConfigManager;
-import videogamessearch.android.ccook.info.videogamessearch.config.ConfigModel;
+import javax.inject.Inject;
 
-public class MainActivity extends AppCompatActivity {
+import videogamessearch.android.ccook.info.videogamessearch.App;
+import videogamessearch.android.ccook.info.videogamessearch.R;
+
+public class SearchActivity extends AppCompatActivity {
+
+    @Inject SearchActivityViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((App) getApplication()).getComponent().inject(this);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -30,28 +35,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ConfigModel configModel = new ConfigManager().getConfig(getApplicationContext());
+         viewModel.getConfig();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        return item.getItemId() == R.id.action_settings || super.onOptionsItemSelected(item);
     }
 }
