@@ -1,6 +1,7 @@
 package videogamessearch.android.ccook.info.videogamessearch.config;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -22,10 +23,15 @@ public class ConfigManager {
     }
 
     public ConfigModel parseConfig(String json) {
-        if (json == null) {
+        if (json == null || json.length() == 0) {
             return new ConfigModel();
         }
-        return new Gson().fromJson(json, ConfigModel.class);
+
+        try {
+            return new Gson().fromJson(json, ConfigModel.class);
+        } catch (JsonSyntaxException e) {
+            return new ConfigModel();
+        }
     }
 
     public String readConfig() {
