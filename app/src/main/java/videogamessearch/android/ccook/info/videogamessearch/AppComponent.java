@@ -3,17 +3,17 @@ package videogamessearch.android.ccook.info.videogamessearch;
 import javax.inject.Singleton;
 
 import dagger.Component;
-import videogamessearch.android.ccook.info.videogamessearch.config.ConfigManagerModule;
+import videogamessearch.android.ccook.info.videogamessearch.network.NetworkModule;
 import videogamessearch.android.ccook.info.videogamessearch.search.SearchActivity;
 import videogamessearch.android.ccook.info.videogamessearch.search.SearchActivityModule;
-import videogamessearch.android.ccook.info.videogamessearch.search.SearchActivityViewModelModule;
+import videogamessearch.android.ccook.info.videogamessearch.search.SearchActivityPresenterModule;
 
 @Singleton
 @Component(modules = {
         AppModule.class,
-        ConfigManagerModule.class,
-        SearchActivityViewModelModule.class,
-        SearchActivityModule.class
+        SearchActivityPresenterModule.class,
+        SearchActivityModule.class,
+        NetworkModule.class
 })
 public interface AppComponent {
     final class Initializer {
