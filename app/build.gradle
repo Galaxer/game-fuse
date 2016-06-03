@@ -16,11 +16,11 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "videogamessearch.android.ccook.info.videogamessearch"
+        applicationId 'info.ccook.videogamesearch'
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
     }
     buildTypes {
         release {
@@ -45,5 +45,6 @@ dependencies {
     apt 'com.google.dagger:dagger-compiler:2.0.2'
     provided 'org.glassfish:javax.annotation:10.0-b28'
 
+    // Testing
     testCompile 'junit:junit:4.12'
 }
