@@ -4,15 +4,15 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import info.ccook.videogamesearch.network.NetworkModule;
-import info.ccook.videogamesearch.search.SearchActivity;
-import info.ccook.videogamesearch.search.SearchActivityModule;
-import info.ccook.videogamesearch.search.SearchActivityPresenterModule;
+import info.ccook.videogamesearch.search.SearchFragment;
+import info.ccook.videogamesearch.search.SearchFragmentModule;
+import info.ccook.videogamesearch.search.SearchFragmentPresenterModule;
 
 @Singleton
 @Component(modules = {
         AppModule.class,
-        SearchActivityPresenterModule.class,
-        SearchActivityModule.class,
+        SearchFragmentPresenterModule.class,
+        SearchFragmentModule.class,
         NetworkModule.class
 })
 public interface AppComponent {
@@ -24,5 +24,5 @@ public interface AppComponent {
         }
     }
 
-    void inject(SearchActivity searchActivity);
+    void inject(SearchFragment searchFragment);
 }

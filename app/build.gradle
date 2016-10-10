@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.neenbedankt.android-apt'
 
 buildscript {
     repositories {
@@ -7,20 +6,23 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
     }
 }
 
 android {
-    compileSdkVersion 23
+    compileSdkVersion 24
     buildToolsVersion "23.0.3"
 
     defaultConfig {
         applicationId 'info.ccook.videogamesearch'
         minSdkVersion 15
-        targetSdkVersion 23
+        targetSdkVersion 24
         versionCode 1
         versionName "1.0.0"
+
+        // Needed for backwards compatibility of vector drawables
+        vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {
@@ -29,21 +31,32 @@ android {
             minifyEnabled true
         }
     }
+
+    dataBinding {
+        enabled = true
+    }
+
+    sourceSets {
+        main {
+            // Set Android resource directories. This allows better organization of resources.
+            res.srcDirs = getResourceDirectories("app/src/main/")
+        }
+    }
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'com.android.support:design:23.4.0'
+    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.android.support:design:24.2.1'
     compile 'com.google.code.gson:gson:2.6.2'
 
-    // Retrofit
+    // Retrofit (Networking request)
     compile 'com.squareup.retrofit2:retrofit:2.0.0-beta4'
     compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta4'
     compile 'com.squareup.okhttp:okhttp:2.3.0'
 
-    // Dagger 2
+    // Dagger 2 (Dependency injection)
     compile 'com.google.dagger:dagger:2.0.2'
-    apt 'com.google.dagger:dagger-compiler:2.0.2'
+    compile 'com.google.dagger:dagger-compiler:2.0.2'
     provided 'org.glassfish:javax.annotation:10.0-b28'
 
     // Testing

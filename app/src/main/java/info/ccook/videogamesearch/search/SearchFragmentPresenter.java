@@ -12,12 +12,12 @@ import info.ccook.videogamesearch.network.GiantBombService;
 import info.ccook.videogamesearch.search.models.SearchResult;
 import info.ccook.videogamesearch.search.models.SearchResults;
 
-public class SearchActivityPresenter implements Callback<SearchResults> {
+public class SearchFragmentPresenter implements Callback<SearchResults> {
 
     private GiantBombService giantBombService;
     private String query = "";
 
-    public SearchActivityPresenter(GiantBombService giantBombService) {
+    public SearchFragmentPresenter(GiantBombService giantBombService) {
         this.giantBombService = giantBombService;
     }
 
