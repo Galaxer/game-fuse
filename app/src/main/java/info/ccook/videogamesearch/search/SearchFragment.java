@@ -1,0 +1,54 @@
+package info.ccook.videogamesearch.search;
+
+import android.app.SearchManager;
+import android.databinding.DataBindingUtil;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import javax.inject.Inject;
+
+import info.ccook.videogamesearch.App;
+import info.ccook.videogamesearch.R;
+import info.ccook.videogamesearch.databinding.SearchFragmentBinding;
+
+public class SearchFragment extends Fragment {
+
+    @Inject
+    SearchFragmentPresenter presenter;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ((App) getActivity().getApplication()).getComponent().inject(this);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        SearchFragmentBinding binding = DataBindingUtil.inflate(inflater, R.layout.search_fragment,
+                container, false);
+        binding.toolbar.setTitle(R.string.app_name);
+        binding.toolbar.inflateMenu(R.menu.search_menu);
+        final SearchView searchView = (SearchView) MenuItemCompat
+                .getActionView(binding.toolbar.getMenu().findItem(R.id.action_search));
+        SearchManager searchManager = (SearchManager) getActivity()
+                .getSystemService(AppCompatActivity.SEARCH_SERVICE);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity()
+                .getComponentName()));
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        presenter.search("rocket league");
+    }
+}
