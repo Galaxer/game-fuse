@@ -41,6 +41,6 @@ public class SearchFragmentPresenter implements Callback<SearchResults> {
 
     @Override
     public void onFailure(Call<SearchResults> call, Throwable t) {
-        Log.d("stuff", t.getMessage());
+        Log.d("stuff", "request error");
     }
 }
