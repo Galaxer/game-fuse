@@ -14,9 +14,12 @@ import android.view.ViewGroup;
 
 import javax.inject.Inject;
 
-import info.ccook.videogamesearch.App;
+import info.ccook.videogamesearch.AppComponent;
+import info.ccook.videogamesearch.AppModule;
+import info.ccook.videogamesearch.DaggerAppComponent;
 import info.ccook.videogamesearch.R;
 import info.ccook.videogamesearch.databinding.SearchFragmentBinding;
+import info.ccook.videogamesearch.network.NetworkModule;
 
 public class SearchFragment extends Fragment {
 
@@ -26,7 +29,15 @@ public class SearchFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((App) getActivity().getApplication()).getComponent().inject(this);
+
+        AppComponent appComponent = DaggerAppComponent.builder()
+                .appModule(new AppModule(getActivity().getApplication())).build();
+
+        DaggerSearchComponent.builder()
+                .appComponent(appComponent)
+                .networkModule(new NetworkModule())
+                .searchFragmentModule(new SearchFragmentModule())
+                .build().inject(this);
     }
 
     @Nullable
