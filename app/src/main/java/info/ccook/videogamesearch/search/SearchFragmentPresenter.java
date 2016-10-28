@@ -2,45 +2,49 @@ package info.ccook.videogamesearch.search;
 
 import android.util.Log;
 
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import info.ccook.videogamesearch.config.PrivateConfig;
 import info.ccook.videogamesearch.network.GiantBombService;
-import info.ccook.videogamesearch.search.models.SearchResult;
 import info.ccook.videogamesearch.search.models.SearchResults;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
-public class SearchFragmentPresenter implements Callback<SearchResults> {
+class SearchFragmentPresenter {
 
     private GiantBombService giantBombService;
-    private String query = "";
+    private GameSearchView view;
 
-    public SearchFragmentPresenter(GiantBombService giantBombService) {
+    SearchFragmentPresenter(GiantBombService giantBombService, GameSearchView view) {
         this.giantBombService = giantBombService;
+        this.view = view;
     }
 
     public void search(String query) {
-        Call<SearchResults> call = giantBombService.search(PrivateConfig.GIANT_BOMB_API_KEY, "game",
-                query, 10);
-        call.enqueue(this);
+        giantBombService.search(PrivateConfig.GIANT_BOMB_API_KEY, query)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<SearchResults>() {
+                    @Override
+                    public final void onCompleted() {
+                    }
+
+                    @Override
+                    public final void onError(Throwable error) {
+                        onSearchError(error);
+                    }
+
+                    @Override
+                    public final void onNext(SearchResults searchResults) {
+                        onSearchSuccess(searchResults);
+                    }
+                });
     }
 
-    @Override
-    public void onResponse(Call<SearchResults> call, Response<SearchResults> response) {
-        Log.d("stuff", call.request().url().toString());
-        Log.d("stuff", response.code() + "");
-        if (response.body() != null) {
-            List<SearchResult> results = response.body().getResults();
-            for (SearchResult result : results) {
-                Log.d("stuff", result.getName());
-            }
-        }
+    private void onSearchSuccess(SearchResults searchResults) {
+        view.showSearchResults(searchResults);
     }
 
-    @Override
-    public void onFailure(Call<SearchResults> call, Throwable t) {
-        Log.d("stuff", "request error");
+    private void onSearchError(Throwable error) {
+        Log.d("stuff", error.getMessage());
     }
 }

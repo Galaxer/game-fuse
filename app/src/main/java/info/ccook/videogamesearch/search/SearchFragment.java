@@ -1,5 +1,6 @@
 package info.ccook.videogamesearch.search;
 
+import android.app.Application;
 import android.app.SearchManager;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +22,10 @@ import info.ccook.videogamesearch.DaggerAppComponent;
 import info.ccook.videogamesearch.R;
 import info.ccook.videogamesearch.databinding.SearchFragmentBinding;
 import info.ccook.videogamesearch.network.NetworkModule;
+import info.ccook.videogamesearch.search.models.SearchResult;
+import info.ccook.videogamesearch.search.models.SearchResults;
 
-public class SearchFragment extends Fragment {
+public class SearchFragment extends Fragment implements GameSearchView {
 
     @Inject
     SearchFragmentPresenter presenter;
@@ -29,14 +33,17 @@ public class SearchFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        injectDependencies(getActivity().getApplication());
+    }
 
+    private void injectDependencies(Application application) {
         AppComponent appComponent = DaggerAppComponent.builder()
-                .appModule(new AppModule(getActivity().getApplication())).build();
+                .appModule(new AppModule(application)).build();
 
         DaggerSearchComponent.builder()
                 .appComponent(appComponent)
                 .networkModule(new NetworkModule())
-                .searchFragmentModule(new SearchFragmentModule())
+                .searchFragmentModule(new SearchFragmentModule(this))
                 .build().inject(this);
     }
 
@@ -61,5 +68,12 @@ public class SearchFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         presenter.search("rocket league");
+    }
+
+    @Override
+    public void showSearchResults(SearchResults searchResults) {
+        for (SearchResult result : searchResults.getResults()) {
+            Log.d("stuff", result.getName());
+        }
     }
 }
