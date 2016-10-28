@@ -1,7 +1,7 @@
 # Configuration for CircleCI automated builds
 dependencies:
   pre:
-    - echo y | android update sdk --no-ui --all --filter "package-name"
+    - echo y | android update sdk --no-ui
 test:
   override:
     - ./gradlew test
