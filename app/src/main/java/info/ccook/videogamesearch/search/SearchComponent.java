@@ -10,6 +10,6 @@ import info.ccook.videogamesearch.network.NetworkModule;
         SearchFragmentModule.class,
         NetworkModule.class
 })
-public interface SearchComponent {
+interface SearchComponent {
     void inject(SearchFragment searchFragment);
 }

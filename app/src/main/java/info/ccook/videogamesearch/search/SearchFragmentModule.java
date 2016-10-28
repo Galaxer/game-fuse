@@ -6,11 +6,17 @@ import info.ccook.videogamesearch.PerFragment;
 import info.ccook.videogamesearch.network.GiantBombService;
 
 @Module
-public class SearchFragmentModule {
+class SearchFragmentModule {
+
+    private GameSearchView gameSearchView;
+
+    SearchFragmentModule(GameSearchView gameSearchView) {
+        this.gameSearchView = gameSearchView;
+    }
 
     @Provides
     @PerFragment
     SearchFragmentPresenter provideSearchPresenter(GiantBombService giantBombService) {
-        return new SearchFragmentPresenter(giantBombService);
+        return new SearchFragmentPresenter(giantBombService, gameSearchView);
     }
 }
