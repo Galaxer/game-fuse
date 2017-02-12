@@ -1,4 +1,4 @@
-package info.ccook.videogamesearch.search.models;
+package android.ccook.info.giantbombapi.models;
 
 public class SearchResult {
 
