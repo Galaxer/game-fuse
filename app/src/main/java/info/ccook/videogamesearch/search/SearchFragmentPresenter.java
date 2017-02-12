@@ -1,43 +1,43 @@
 package info.ccook.videogamesearch.search;
 
+import android.ccook.info.giantbombapi.Callback;
+import android.ccook.info.giantbombapi.GiantBombAPI;
+import android.ccook.info.giantbombapi.SearchRequest;
+import android.ccook.info.giantbombapi.models.SearchResults;
 import android.util.Log;
 
 import info.ccook.videogamesearch.config.PrivateConfig;
-import info.ccook.videogamesearch.network.GiantBombService;
-import info.ccook.videogamesearch.search.models.SearchResults;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 class SearchFragmentPresenter {
 
-    private GiantBombService giantBombService;
     private GameSearchView view;
+    private GiantBombAPI.Builder giantBombApiBuilder;
 
-    SearchFragmentPresenter(GiantBombService giantBombService, GameSearchView view) {
-        this.giantBombService = giantBombService;
+    SearchFragmentPresenter(GameSearchView view, GiantBombAPI.Builder giantBombApiBuilder) {
         this.view = view;
+        this.giantBombApiBuilder = giantBombApiBuilder;
     }
 
     public void search(String query) {
-        giantBombService.search(PrivateConfig.GIANT_BOMB_API_KEY, query)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<SearchResults>() {
+        SearchRequest searchRequest = new SearchRequest.Builder()
+                .setResource(SearchRequest.RESOURCE_GAME)
+                .setQuery(query)
+                .setField(SearchRequest.FIELD_NAME)
+                .setCallback(new Callback<SearchResults>() {
                     @Override
-                    public final void onCompleted() {
-                    }
-
-                    @Override
-                    public final void onError(Throwable error) {
+                    public void onError(Throwable error) {
                         onSearchError(error);
                     }
 
                     @Override
-                    public final void onNext(SearchResults searchResults) {
+                    public void onSuccess(SearchResults searchResults) {
                         onSearchSuccess(searchResults);
                     }
-                });
+                }).build();
+
+        giantBombApiBuilder
+                .setApiKey(PrivateConfig.GIANT_BOMB_API_KEY)
+                .build().search(searchRequest);
     }
 
     private void onSearchSuccess(SearchResults searchResults) {
@@ -45,6 +45,6 @@ class SearchFragmentPresenter {
     }
 
     private void onSearchError(Throwable error) {
-        Log.d("stuff", error.getMessage());
+        Log.d("Search Error", "Error getting search results");
     }
 }

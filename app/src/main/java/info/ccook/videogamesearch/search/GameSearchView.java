@@ -1,6 +1,6 @@
 package info.ccook.videogamesearch.search;
 
-import info.ccook.videogamesearch.search.models.SearchResults;
+import android.ccook.info.giantbombapi.models.SearchResults;
 
 interface GameSearchView {
     void showSearchResults(SearchResults searchResults);

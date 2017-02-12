@@ -2,6 +2,8 @@ package info.ccook.videogamesearch.search;
 
 import android.app.Application;
 import android.app.SearchManager;
+import android.ccook.info.giantbombapi.models.SearchResult;
+import android.ccook.info.giantbombapi.models.SearchResults;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -21,9 +23,6 @@ import info.ccook.videogamesearch.AppModule;
 import info.ccook.videogamesearch.DaggerAppComponent;
 import info.ccook.videogamesearch.R;
 import info.ccook.videogamesearch.databinding.SearchFragmentBinding;
-import info.ccook.videogamesearch.network.NetworkModule;
-import info.ccook.videogamesearch.search.models.SearchResult;
-import info.ccook.videogamesearch.search.models.SearchResults;
 
 public class SearchFragment extends Fragment implements GameSearchView {
 
@@ -42,7 +41,6 @@ public class SearchFragment extends Fragment implements GameSearchView {
 
         DaggerSearchComponent.builder()
                 .appComponent(appComponent)
-                .networkModule(new NetworkModule())
                 .searchFragmentModule(new SearchFragmentModule(this))
                 .build().inject(this);
     }
