@@ -70,8 +70,8 @@ public class SearchFragment extends Fragment implements GameSearchView {
 
     @Override
     public void showSearchResults(SearchResults searchResults) {
-        for (SearchResult result : searchResults.getResults()) {
-            Log.d("stuff", result.getName());
+        for (SearchResult result : searchResults.results()) {
+            Log.d("stuff", result.name());
         }
     }
 }

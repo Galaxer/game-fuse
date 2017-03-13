@@ -3,7 +3,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.3'
+        classpath 'com.android.tools.build:gradle:2.3.0'
     }
 }
 
@@ -21,7 +21,7 @@ allprojects {
         def resourceDirectoryName = "res";
 
         new File(rootDirectory).eachDirRecurse { directory ->
-            if (directory.getName().equals(resourceDirectoryName)) {
+            if (directory.getName() == resourceDirectoryName) {
                 resourceDirectories << directory.getAbsolutePath()
             }
         }
