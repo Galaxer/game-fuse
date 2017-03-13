@@ -3,10 +3,13 @@ package android.ccook.info.giantbombapi;
 import android.ccook.info.giantbombapi.models.SearchResults;
 import android.content.Context;
 
+import com.google.gson.GsonBuilder;
+
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -20,7 +23,9 @@ public class GiantBombAPI {
     private Context context;
     private Cache cache;
     private Retrofit.Builder retrofit = new Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(new GsonBuilder()
+                    .registerTypeAdapterFactory(AutoValueGsonTypeAdapterFactory.create())
+                    .create()))
             .addCallAdapterFactory(RxJavaCallAdapterFactory.create());
 
     private GiantBombAPI(Builder builder) {
@@ -55,7 +60,7 @@ public class GiantBombAPI {
                 request.getFieldList())
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<SearchResults>() {
+                .subscribe(new Subscriber<Response<SearchResults>>() {
                     @Override
                     public final void onCompleted() {
                     }
@@ -66,8 +71,8 @@ public class GiantBombAPI {
                     }
 
                     @Override
-                    public final void onNext(SearchResults searchResults) {
-                        request.getCallback().onSuccess(searchResults);
+                    public final void onNext(Response<SearchResults> resultsResponse) {
+                        request.getCallback().onSuccess(resultsResponse.body());
                     }
                 });
     }

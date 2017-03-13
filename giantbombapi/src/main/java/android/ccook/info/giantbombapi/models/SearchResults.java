@@ -1,17 +1,17 @@
 package android.ccook.info.giantbombapi.models;
 
-import java.util.ArrayList;
+import com.google.auto.value.AutoValue;
+import com.google.gson.Gson;
+import com.google.gson.TypeAdapter;
+
 import java.util.List;
 
-public class SearchResults {
+@AutoValue
+public abstract class SearchResults {
 
-    private List<SearchResult> results = new ArrayList<>();
+    public abstract List<SearchResult> results();
 
-    public List<SearchResult> getResults() {
-        return results;
-    }
-
-    public void setResults(List<SearchResult> results) {
-        this.results = results;
+    public static TypeAdapter<SearchResults> typeAdapter(Gson gson) {
+        return new AutoValue_SearchResults.GsonTypeAdapter(gson);
     }
 }
