@@ -1,4 +1,4 @@
-package android.ccook.info.giantbombapi.models;
+package android.ccook.info.giantbombapi.search.models;
 
 import com.google.auto.value.AutoValue;
 import com.google.gson.Gson;

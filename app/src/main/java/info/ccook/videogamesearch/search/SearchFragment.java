@@ -2,8 +2,8 @@ package info.ccook.videogamesearch.search;
 
 import android.app.Application;
 import android.app.SearchManager;
-import android.ccook.info.giantbombapi.models.SearchResult;
-import android.ccook.info.giantbombapi.models.SearchResults;
+import android.ccook.info.giantbombapi.search.models.SearchResult;
+import android.ccook.info.giantbombapi.search.models.SearchResults;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;

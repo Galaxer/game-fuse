@@ -1,6 +1,6 @@
 package info.ccook.videogamesearch.search;
 
-import android.ccook.info.giantbombapi.GiantBombAPI;
+import android.ccook.info.giantbombapi.Endpoints;
 
 import dagger.Module;
 import dagger.Provides;
@@ -17,7 +17,7 @@ class SearchFragmentModule {
 
     @Provides
     @PerFragment
-    SearchFragmentPresenter provideSearchPresenter(GiantBombAPI.Builder builder) {
-        return new SearchFragmentPresenter(gameSearchView, builder);
+    SearchFragmentPresenter provideSearchPresenter(Endpoints endpoints) {
+        return new SearchFragmentPresenter(gameSearchView, endpoints);
     }
 }
