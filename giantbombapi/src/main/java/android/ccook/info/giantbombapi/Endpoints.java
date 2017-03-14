@@ -1,13 +1,13 @@
 package android.ccook.info.giantbombapi;
 
-import android.ccook.info.giantbombapi.models.SearchResults;
+import android.ccook.info.giantbombapi.search.models.SearchResults;
 
 import retrofit2.Response;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 import rx.Observable;
 
-interface Endpoints {
+public interface Endpoints {
 
         @GET("search/")
         Observable<Response<SearchResults>> search(@Query("api_key") String apiKey,
