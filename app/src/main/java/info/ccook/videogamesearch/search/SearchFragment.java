@@ -1,9 +1,9 @@
 package info.ccook.videogamesearch.search;
 
-import android.app.Application;
 import android.app.SearchManager;
 import android.ccook.info.giantbombapi.search.models.SearchResult;
 import android.ccook.info.giantbombapi.search.models.SearchResults;
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,39 +15,30 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import javax.inject.Inject;
 
-import info.ccook.videogamesearch.AppComponent;
-import info.ccook.videogamesearch.AppModule;
-import info.ccook.videogamesearch.DaggerAppComponent;
+import info.ccook.videogamesearch.App;
 import info.ccook.videogamesearch.R;
 import info.ccook.videogamesearch.databinding.SearchFragmentBinding;
 
 public class SearchFragment extends Fragment implements GameSearchView {
 
-    @Inject
-    SearchFragmentPresenter presenter;
+    @Inject SearchFragmentPresenter presenter;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        injectDependencies(getActivity().getApplication());
-    }
-
-    private void injectDependencies(Application application) {
-        AppComponent appComponent = DaggerAppComponent.builder()
-                .appModule(new AppModule(application)).build();
-
+    public void onAttach(Context context) {
+        super.onAttach(context);
         DaggerSearchComponent.builder()
-                .appComponent(appComponent)
-                .searchFragmentModule(new SearchFragmentModule(this))
+                .appComponent(((App) getActivity().getApplication()).getComponent())
+                .searchFragmentModule(new SearchFragmentModule(this, getFragmentManager()))
                 .build().inject(this);
     }
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         SearchFragmentBinding binding = DataBindingUtil.inflate(inflater, R.layout.search_fragment,
                 container, false);
@@ -59,13 +50,25 @@ public class SearchFragment extends Fragment implements GameSearchView {
                 .getSystemService(AppCompatActivity.SEARCH_SERVICE);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity()
                 .getComponentName()));
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                presenter.newSearch(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        presenter.search("rocket league");
+        presenter.continuedSearch("rocket league");
     }
 
     @Override
@@ -73,5 +76,10 @@ public class SearchFragment extends Fragment implements GameSearchView {
         for (SearchResult result : searchResults.results()) {
             Log.d("stuff", result.name());
         }
+    }
+
+    @Override
+    public void showSearchError() {
+        Toast.makeText(getContext(), "Search error", Toast.LENGTH_LONG).show();
     }
 }
