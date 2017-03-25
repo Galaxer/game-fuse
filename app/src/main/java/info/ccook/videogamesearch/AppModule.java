@@ -5,6 +5,7 @@ import android.ccook.info.giantbombapi.AutoValueGsonTypeAdapterFactory;
 import android.ccook.info.giantbombapi.Endpoints;
 import android.content.Context;
 
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.gson.GsonBuilder;
 
 import java.util.concurrent.TimeUnit;
@@ -20,11 +21,14 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
-public class AppModule {
+class AppModule {
+
+    private static final int TIMEOUT = 20; // In seconds
+    private static final int CACHE_MAX_SIZE = 10; // In MB
 
     private Application application;
 
-    public AppModule(Application application) {
+    AppModule(Application application) {
         this.application = application;
     }
 
@@ -36,18 +40,33 @@ public class AppModule {
 
     @Provides
     @Singleton
-    Endpoints provideEndpoints(Context context) {
+    Endpoints provideEndpoints(Context context, AppConfig config) {
         return new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(new GsonBuilder()
                         .registerTypeAdapterFactory(AutoValueGsonTypeAdapterFactory.create())
                         .create()))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .baseUrl("http://www.giantbomb.com/api/")
-                .client(new OkHttpClient.Builder().cache(new Cache(context.getCacheDir(), 10))
-                        .connectTimeout(20, TimeUnit.SECONDS)
-                        .readTimeout(20, TimeUnit.SECONDS)
+                .baseUrl(config.getGiantBombApiBaseUrl())
+                .client(new OkHttpClient.Builder()
+                        .cache(new Cache(context.getCacheDir(), CACHE_MAX_SIZE))
+                        .connectTimeout(TIMEOUT, TimeUnit.SECONDS)
+                        .readTimeout(TIMEOUT, TimeUnit.SECONDS)
                         .build())
                 .build()
                 .create(Endpoints.class);
+    }
+
+    @Provides
+    @Singleton
+    FirebaseRemoteConfig provideFirebaseRemoteConfig() {
+        FirebaseRemoteConfig firebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+        firebaseRemoteConfig.setDefaults(R.xml.firebase_defaults);
+        return firebaseRemoteConfig;
+    }
+
+    @Provides
+    @Singleton
+    AppConfig provideAppConfig(FirebaseRemoteConfig config) {
+        return new AppConfig(config);
     }
 }

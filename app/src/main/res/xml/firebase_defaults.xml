@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<defaultsMap>
+    <entry>
+        <key>giantBombApiKey</key>
+        <value/>
+    </entry>
+    <entry>
+        <key>giantBombApiBaseUrl</key>
+        <value>http://www.giantbomb.com/api/</value>
+    </entry>
+</defaultsMap>

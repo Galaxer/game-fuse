@@ -27,9 +27,12 @@ public class SearchFragment extends Fragment implements GameSearchView {
 
     @Inject SearchFragmentPresenter presenter;
 
+    private Context appContext;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        appContext = context.getApplicationContext();
         DaggerSearchComponent.builder()
                 .appComponent(((App) getActivity().getApplication()).getComponent())
                 .searchFragmentModule(new SearchFragmentModule(this, getFragmentManager()))
@@ -80,6 +83,6 @@ public class SearchFragment extends Fragment implements GameSearchView {
 
     @Override
     public void showSearchError() {
-        Toast.makeText(getContext(), "Search error", Toast.LENGTH_LONG).show();
+        Toast.makeText(appContext, "Search error", Toast.LENGTH_LONG).show();
     }
 }

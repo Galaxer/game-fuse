@@ -6,7 +6,7 @@ import android.ccook.info.giantbombapi.game.GameFields;
 import android.ccook.info.giantbombapi.search.SearchResources;
 import android.ccook.info.giantbombapi.search.models.SearchResults;
 
-import info.ccook.videogamesearch.config.PrivateConfig;
+import info.ccook.videogamesearch.AppConfig;
 import retrofit2.Response;
 import rx.Subscriber;
 import rx.Subscription;
@@ -15,13 +15,17 @@ import rx.schedulers.Schedulers;
 
 class SearchFragmentPresenter {
 
+    private static final int SEARCH_RESPONSE_LIMIT = 10;
+
     private GameSearchView view;
     private Endpoints endpoints;
     private Subscription searchRequest;
+    private AppConfig config;
 
-    SearchFragmentPresenter(GameSearchView view, Endpoints endpoints) {
+    SearchFragmentPresenter(GameSearchView view, Endpoints endpoints, AppConfig config) {
         this.view = view;
         this.endpoints = endpoints;
+        this.config = config;
     }
 
     /**
@@ -29,8 +33,8 @@ class SearchFragmentPresenter {
      * @param query Text to be searched for.
      */
     private void search(String query) {
-        searchRequest = endpoints.search(PrivateConfig.GIANT_BOMB_API_KEY, query,
-                ResponseFormats.JSON, 10,
+        searchRequest = endpoints.search(config.getGiantBombApiKey(), query,
+                ResponseFormats.JSON, SEARCH_RESPONSE_LIMIT,
                 SearchResources.GAME, GameFields.NAME)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
