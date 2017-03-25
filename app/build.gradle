@@ -53,9 +53,15 @@ dependencies {
     compile 'io.reactivex:rxjava:1.1.6'
     compile 'io.reactivex:rxandroid:1.2.1'
 
+    // Firebase remote config
+    compile 'com.google.firebase:firebase-config:10.2.0'
+
     // Testing
     testCompile 'junit:junit:4.12'
 
     // GiantBomb API
     compile project(':giantbombapi')
 }
+
+// Used for Firebase
+apply plugin: 'com.google.gms.google-services'
