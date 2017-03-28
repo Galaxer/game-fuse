@@ -6,18 +6,18 @@ import android.support.v4.app.FragmentManager;
 import dagger.Module;
 import dagger.Provides;
 import info.ccook.videogamesearch.AppConfig;
-import info.ccook.videogamesearch.PerFragment;
+import info.ccook.videogamesearch.PerActivity;
 import info.ccook.videogamesearch.RetainedFragment;
 
 @Module
-class SearchFragmentModule {
+class SearchModule {
 
     private static final String SEARCH_PRESENTER_FRAGMENT_TAG = "SearchPresenterFragment";
 
     private GameSearchView searchView;
     private FragmentManager fragmentManager;
 
-    SearchFragmentModule(GameSearchView searchView, FragmentManager fragmentManager) {
+    SearchModule(GameSearchView searchView, FragmentManager fragmentManager) {
         this.searchView = searchView;
         this.fragmentManager = fragmentManager;
     }
@@ -29,15 +29,15 @@ class SearchFragmentModule {
      * @return A SearchFragmentPresenter.
      */
     @Provides
-    @PerFragment
-    SearchFragmentPresenter provideSearchPresenter(Endpoints endpoints, AppConfig config) {
+    @PerActivity
+    SearchActivityPresenter provideSearchPresenter(Endpoints endpoints, AppConfig config) {
         RetainedFragment existingFragment = (RetainedFragment) fragmentManager
                 .findFragmentByTag(SEARCH_PRESENTER_FRAGMENT_TAG);
         if (existingFragment != null) {
-            return (SearchFragmentPresenter) existingFragment.get();
+            return (SearchActivityPresenter) existingFragment.get();
         } else {
-            RetainedFragment<SearchFragmentPresenter> newFragment = new RetainedFragment<>();
-            newFragment.set(new SearchFragmentPresenter(searchView, endpoints, config));
+            RetainedFragment<SearchActivityPresenter> newFragment = new RetainedFragment<>();
+            newFragment.set(new SearchActivityPresenter(searchView, endpoints, config));
             fragmentManager.beginTransaction().add(newFragment, SEARCH_PRESENTER_FRAGMENT_TAG)
                     .commit();
             return newFragment.get();
