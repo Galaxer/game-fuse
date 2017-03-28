@@ -13,7 +13,7 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-class SearchFragmentPresenter {
+class SearchActivityPresenter {
 
     private static final int SEARCH_RESPONSE_LIMIT = 10;
 
@@ -22,7 +22,7 @@ class SearchFragmentPresenter {
     private Subscription searchRequest;
     private AppConfig config;
 
-    SearchFragmentPresenter(GameSearchView view, Endpoints endpoints, AppConfig config) {
+    SearchActivityPresenter(GameSearchView view, Endpoints endpoints, AppConfig config) {
         this.view = view;
         this.endpoints = endpoints;
         this.config = config;
