@@ -1,4 +1,4 @@
-package info.ccook.videogamesearch.search;
+package info.ccook.gamefuse.search;
 
 import android.ccook.info.giantbombapi.search.models.SearchResults;
 

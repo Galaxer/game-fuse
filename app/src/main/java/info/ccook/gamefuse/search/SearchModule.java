@@ -1,13 +1,13 @@
-package info.ccook.videogamesearch.search;
+package info.ccook.gamefuse.search;
 
 import android.ccook.info.giantbombapi.Endpoints;
 import android.support.v4.app.FragmentManager;
 
 import dagger.Module;
 import dagger.Provides;
-import info.ccook.videogamesearch.AppConfig;
-import info.ccook.videogamesearch.PerActivity;
-import info.ccook.videogamesearch.RetainedFragment;
+import info.ccook.gamefuse.AppConfig;
+import info.ccook.gamefuse.PerActivity;
+import info.ccook.gamefuse.RetainedFragment;
 
 @Module
 class SearchModule {

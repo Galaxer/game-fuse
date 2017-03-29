@@ -1,8 +1,8 @@
-package info.ccook.videogamesearch.search;
+package info.ccook.gamefuse.search;
 
 import dagger.Component;
-import info.ccook.videogamesearch.AppComponent;
-import info.ccook.videogamesearch.PerActivity;
+import info.ccook.gamefuse.AppComponent;
+import info.ccook.gamefuse.PerActivity;
 
 @PerActivity
 @Component(dependencies = AppComponent.class, modules = { SearchModule.class })

@@ -1,4 +1,4 @@
-package info.ccook.videogamesearch.gamedetail;
+package info.ccook.gamefuse.gamedetail;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -8,8 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import info.ccook.videogamesearch.R;
-import info.ccook.videogamesearch.databinding.GameDetailFragmentBinding;
+import info.ccook.gamefuse.R;
+import info.ccook.gamefuse.databinding.GameDetailFragmentBinding;
 
 public class GameDetailFragment extends Fragment {
 

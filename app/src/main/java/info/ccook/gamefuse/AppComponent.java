@@ -1,4 +1,4 @@
-package info.ccook.videogamesearch;
+package info.ccook.gamefuse;
 
 import android.ccook.info.giantbombapi.Endpoints;
 

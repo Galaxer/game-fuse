@@ -1,12 +1,12 @@
-package info.ccook.videogamesearch.splash;
+package info.ccook.gamefuse.splash;
 
 import android.support.v4.app.FragmentManager;
 
 import dagger.Module;
 import dagger.Provides;
-import info.ccook.videogamesearch.AppConfig;
-import info.ccook.videogamesearch.PerActivity;
-import info.ccook.videogamesearch.RetainedFragment;
+import info.ccook.gamefuse.AppConfig;
+import info.ccook.gamefuse.PerActivity;
+import info.ccook.gamefuse.RetainedFragment;
 
 @Module
 class SplashModule {

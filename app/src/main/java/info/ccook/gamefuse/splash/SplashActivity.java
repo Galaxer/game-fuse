@@ -1,4 +1,4 @@
-package info.ccook.videogamesearch.splash;
+package info.ccook.gamefuse.splash;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -9,10 +9,10 @@ import android.widget.Toast;
 
 import javax.inject.Inject;
 
-import info.ccook.videogamesearch.App;
-import info.ccook.videogamesearch.R;
-import info.ccook.videogamesearch.databinding.SplashActivityBinding;
-import info.ccook.videogamesearch.search.SearchActivity;
+import info.ccook.gamefuse.App;
+import info.ccook.gamefuse.R;
+import info.ccook.gamefuse.databinding.SplashActivityBinding;
+import info.ccook.gamefuse.search.SearchActivity;
 
 public class SplashActivity extends AppCompatActivity implements SplashView {
 

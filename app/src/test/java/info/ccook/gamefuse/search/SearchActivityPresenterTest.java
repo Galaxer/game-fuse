@@ -1,4 +1,4 @@
-package info.ccook.videogamesearch.search;
+package info.ccook.gamefuse.search;
 
 public class SearchActivityPresenterTest {
 }
