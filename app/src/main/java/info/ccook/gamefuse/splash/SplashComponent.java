@@ -1,8 +1,8 @@
-package info.ccook.videogamesearch.splash;
+package info.ccook.gamefuse.splash;
 
 import dagger.Component;
-import info.ccook.videogamesearch.AppComponent;
-import info.ccook.videogamesearch.PerActivity;
+import info.ccook.gamefuse.AppComponent;
+import info.ccook.gamefuse.PerActivity;
 
 @PerActivity
 @Component(dependencies = AppComponent.class, modules = { SplashModule.class })

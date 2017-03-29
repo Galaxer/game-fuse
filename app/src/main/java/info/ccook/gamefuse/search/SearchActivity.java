@@ -1,4 +1,4 @@
-package info.ccook.videogamesearch.search;
+package info.ccook.gamefuse.search;
 
 import android.app.SearchManager;
 import android.ccook.info.giantbombapi.search.models.SearchResult;
@@ -15,8 +15,8 @@ import android.widget.Toast;
 
 import javax.inject.Inject;
 
-import info.ccook.videogamesearch.App;
-import info.ccook.videogamesearch.R;
+import info.ccook.gamefuse.App;
+import info.ccook.gamefuse.R;
 
 public class SearchActivity extends AppCompatActivity implements GameSearchView {
 

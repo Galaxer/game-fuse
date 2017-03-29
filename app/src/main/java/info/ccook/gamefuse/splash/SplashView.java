@@ -1,4 +1,4 @@
-package info.ccook.videogamesearch.splash;
+package info.ccook.gamefuse.splash;
 
 interface SplashView {
     void hideLoadingIndicator();

@@ -1,6 +1,6 @@
-package info.ccook.videogamesearch.splash;
+package info.ccook.gamefuse.splash;
 
-import info.ccook.videogamesearch.AppConfig;
+import info.ccook.gamefuse.AppConfig;
 import rx.Observer;
 
 class SplashActivityPresenter {

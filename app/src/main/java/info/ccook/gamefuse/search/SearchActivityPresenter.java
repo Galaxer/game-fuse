@@ -1,4 +1,4 @@
-package info.ccook.videogamesearch.search;
+package info.ccook.gamefuse.search;
 
 import android.ccook.info.giantbombapi.Endpoints;
 import android.ccook.info.giantbombapi.ResponseFormats;
@@ -6,7 +6,7 @@ import android.ccook.info.giantbombapi.game.GameFields;
 import android.ccook.info.giantbombapi.search.SearchResources;
 import android.ccook.info.giantbombapi.search.models.SearchResults;
 
-import info.ccook.videogamesearch.AppConfig;
+import info.ccook.gamefuse.AppConfig;
 import retrofit2.Response;
 import rx.Subscriber;
 import rx.Subscription;
