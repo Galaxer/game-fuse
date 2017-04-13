@@ -1,6 +1,7 @@
 package info.ccook.gamefuse;
 
 import android.ccook.info.giantbombapi.Endpoints;
+import android.content.Context;
 
 import javax.inject.Singleton;
 
@@ -11,4 +12,5 @@ import dagger.Component;
 public interface AppComponent {
     Endpoints endpoints();
     AppConfig appConfig();
+    Context context();
 }
