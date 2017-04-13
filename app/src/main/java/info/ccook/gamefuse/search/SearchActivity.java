@@ -2,35 +2,59 @@ package info.ccook.gamefuse.search;
 
 import android.app.SearchManager;
 import android.ccook.info.giantbombapi.search.models.SearchResult;
-import android.ccook.info.giantbombapi.search.models.SearchResults;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.Menu;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import info.ccook.gamefuse.App;
+import info.ccook.gamefuse.BaseMvpActivity;
 import info.ccook.gamefuse.R;
+import info.ccook.gamefuse.databinding.SearchActivityBinding;
 
-public class SearchActivity extends AppCompatActivity implements GameSearchView {
+public class SearchActivity extends BaseMvpActivity<GameSearchView, SearchActivityPresenter>
+        implements GameSearchView {
+
+    private static final String SEARCH_RESULTS_STATE_KEY = "searchResults";
 
     @Inject SearchActivityPresenter presenter;
+    @Inject LinearLayoutManager linearLayoutManager;
+    @Inject SearchResultsAdapter searchResultsAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+        SearchActivityBinding binding = DataBindingUtil
+                .setContentView(this, R.layout.search_activity);
+        binding.searchResults.setLayoutManager(linearLayoutManager);
+        binding.searchResults.setAdapter(searchResultsAdapter);
+    }
+
+    @Override
+    public void injectDependencies() {
         DaggerSearchComponent.builder()
                 .appComponent(((App) getApplication()).getComponent())
-                .searchModule(new SearchModule(this, getSupportFragmentManager()))
+                .searchModule(new SearchModule())
                 .build().inject(this);
-        DataBindingUtil.setContentView(this, R.layout.search_activity);
-        presenter.continuedSearch("rocket league");
+    }
+
+    @NonNull
+    @Override
+    public SearchActivityPresenter createPresenter() {
+        return presenter;
     }
 
     @Override
@@ -57,10 +81,23 @@ public class SearchActivity extends AppCompatActivity implements GameSearchView 
     }
 
     @Override
-    public void showSearchResults(SearchResults searchResults) {
-        for (SearchResult result : searchResults.results()) {
-            Log.d("stuff", result.name());
-        }
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(SEARCH_RESULTS_STATE_KEY,
+                new ArrayList<Parcelable>(searchResultsAdapter.getSearchResults()));
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        ArrayList<SearchResult> searchResults = savedInstanceState
+                .getParcelableArrayList(SEARCH_RESULTS_STATE_KEY);
+        showSearchResults(searchResults);
+    }
+
+    @Override
+    public void showSearchResults(List<SearchResult> searchResults) {
+        searchResultsAdapter.setSearchResults(searchResults);
     }
 
     @Override

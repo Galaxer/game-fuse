@@ -6,6 +6,8 @@ import android.ccook.info.giantbombapi.game.GameFields;
 import android.ccook.info.giantbombapi.search.SearchResources;
 import android.ccook.info.giantbombapi.search.models.SearchResults;
 
+import com.hannesdorfmann.mosby.mvp.MvpNullObjectBasePresenter;
+
 import info.ccook.gamefuse.AppConfig;
 import retrofit2.Response;
 import rx.Subscriber;
@@ -13,17 +15,15 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-class SearchActivityPresenter {
+class SearchActivityPresenter extends MvpNullObjectBasePresenter<GameSearchView> {
 
-    private static final int SEARCH_RESPONSE_LIMIT = 10;
+    private static final int SEARCH_RESPONSE_LIMIT = 100;
 
-    private GameSearchView view;
     private Endpoints endpoints;
     private Subscription searchRequest;
     private AppConfig config;
 
-    SearchActivityPresenter(GameSearchView view, Endpoints endpoints, AppConfig config) {
-        this.view = view;
+    SearchActivityPresenter(Endpoints endpoints, AppConfig config) {
         this.endpoints = endpoints;
         this.config = config;
     }
@@ -45,13 +45,12 @@ class SearchActivityPresenter {
 
                     @Override
                     public final void onError(Throwable error) {
-                        view.showSearchError();
-
+                        getView().showSearchError();
                     }
 
                     @Override
                     public final void onNext(Response<SearchResults> resultsResponse) {
-                        view.showSearchResults(resultsResponse.body());
+                        getView().showSearchResults(resultsResponse.body().results());
                     }
                 });
     }

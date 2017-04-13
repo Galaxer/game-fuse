@@ -1,15 +1,15 @@
 package info.ccook.gamefuse.splash;
 
+import com.hannesdorfmann.mosby.mvp.MvpNullObjectBasePresenter;
+
 import info.ccook.gamefuse.AppConfig;
 import rx.Observer;
 
-class SplashActivityPresenter {
+class SplashActivityPresenter extends MvpNullObjectBasePresenter<SplashView> {
 
-    private SplashView view;
     private AppConfig config;
 
-    SplashActivityPresenter(SplashView view, AppConfig config) {
-        this.view = view;
+    SplashActivityPresenter(AppConfig config) {
         this.config = config;
     }
 
@@ -22,13 +22,13 @@ class SplashActivityPresenter {
 
             @Override
             public void onError(Throwable e) {
-                view.showError();
+                getView().showError();
             }
 
             @Override
             public void onNext(Void nothing) {
-                view.showSearch();
-                view.hideLoadingIndicator();
+                getView().showSearch();
+                getView().hideLoadingIndicator();
             }
         });
     }

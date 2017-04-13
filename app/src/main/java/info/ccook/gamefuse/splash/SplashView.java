@@ -1,6 +1,8 @@
 package info.ccook.gamefuse.splash;
 
-interface SplashView {
+import com.hannesdorfmann.mosby.mvp.MvpView;
+
+interface SplashView extends MvpView {
     void hideLoadingIndicator();
     void showError();
     void showSearch();
