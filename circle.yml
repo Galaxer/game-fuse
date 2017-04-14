@@ -10,7 +10,7 @@ dependencies:
 
 test:
   override:
-    - ./gradlew test
+    - ./gradlew test:
       parallel: true
-    - ./gradlew assembleDebug
+    - ./gradlew assembleDebug:
       parallel: true
