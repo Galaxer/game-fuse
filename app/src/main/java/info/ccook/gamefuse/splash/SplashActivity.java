@@ -25,9 +25,15 @@ public class SplashActivity extends BaseMvpActivity<SplashView, SplashActivityPr
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRetainInstance(true);
         binding = DataBindingUtil.setContentView(this, R.layout.splash_activity);
-        presenter.fetchConfig();
+        presenter.attachView(this);
+        presenter.continuedConfigFetch();
+    }
+
+    @Override
+    protected void onDestroy() {
+        presenter.detachView(true);
+        super.onDestroy();
     }
 
     @Override

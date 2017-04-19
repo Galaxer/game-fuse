@@ -6,7 +6,7 @@ import android.ccook.info.giantbombapi.game.GameFields;
 import android.ccook.info.giantbombapi.search.SearchResources;
 import android.ccook.info.giantbombapi.search.models.SearchResults;
 
-import com.hannesdorfmann.mosby.mvp.MvpNullObjectBasePresenter;
+import com.hannesdorfmann.mosby3.mvp.MvpNullObjectBasePresenter;
 
 import info.ccook.gamefuse.AppConfig;
 import retrofit2.Response;

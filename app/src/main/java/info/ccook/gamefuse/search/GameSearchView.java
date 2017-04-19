@@ -2,7 +2,7 @@ package info.ccook.gamefuse.search;
 
 import android.ccook.info.giantbombapi.search.models.SearchResult;
 
-import com.hannesdorfmann.mosby.mvp.MvpView;
+import com.hannesdorfmann.mosby3.mvp.MvpView;
 
 import java.util.List;
 
