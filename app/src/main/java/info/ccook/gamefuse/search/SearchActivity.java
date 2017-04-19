@@ -36,11 +36,11 @@ public class SearchActivity extends BaseMvpActivity<GameSearchView, SearchActivi
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRetainInstance(true);
         SearchActivityBinding binding = DataBindingUtil
                 .setContentView(this, R.layout.search_activity);
         binding.searchResults.setLayoutManager(linearLayoutManager);
         binding.searchResults.setAdapter(searchResultsAdapter);
+        presenter.attachView(this);
     }
 
     @Override
@@ -78,6 +78,12 @@ public class SearchActivity extends BaseMvpActivity<GameSearchView, SearchActivi
             }
         });
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        presenter.detachView(true);
+        super.onDestroy();
     }
 
     @Override
