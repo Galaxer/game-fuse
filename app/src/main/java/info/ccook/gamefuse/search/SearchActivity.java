@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Toast;
@@ -38,10 +39,14 @@ public class SearchActivity extends BaseMvpActivity<GameSearchView, SearchActivi
     @Inject SearchActivityPresenter presenter;
     @Inject SearchResultsAdapter searchResultsAdapter;
 
-    @State ArrayList<SearchResult> searchResults;
+    @State ArrayList<SearchResult> searchResults = new ArrayList<>();
     @State int progressBarVisibility;
+    @State String searchQuery;
+    @State boolean searchViewHasFocus;
 
     private SearchActivityBinding binding;
+    private MenuItem searchMenuItem;
+    private SearchView searchView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,8 +74,8 @@ public class SearchActivity extends BaseMvpActivity<GameSearchView, SearchActivi
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.search_menu, menu);
-        final SearchView searchView = (SearchView) MenuItemCompat
-                .getActionView(menu.findItem(R.id.action_search));
+        searchMenuItem = menu.findItem(R.id.action_search);
+        searchView = (SearchView) MenuItemCompat.getActionView(searchMenuItem);
         SearchManager searchManager = (SearchManager)
                 getSystemService(AppCompatActivity.SEARCH_SERVICE);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
@@ -87,6 +92,7 @@ public class SearchActivity extends BaseMvpActivity<GameSearchView, SearchActivi
                 return false;
             }
         });
+        getPresenter().updateSearchViewState(searchQuery, searchViewHasFocus);
         return true;
     }
 
@@ -99,6 +105,10 @@ public class SearchActivity extends BaseMvpActivity<GameSearchView, SearchActivi
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        searchResults = new ArrayList<>(searchResultsAdapter.getSearchResults());
+        searchQuery = searchView.getQuery().toString();
+        searchViewHasFocus = searchView.hasFocus();
+        progressBarVisibility = binding.progressBar.getVisibility();
         StateSaver.saveInstanceState(this, outState);
     }
 
@@ -112,7 +122,6 @@ public class SearchActivity extends BaseMvpActivity<GameSearchView, SearchActivi
 
     @Override
     public void showSearchResults(List<SearchResult> searchResults) {
-        this.searchResults = new ArrayList<>(searchResults);
         searchResultsAdapter.setSearchResults(searchResults);
     }
 
@@ -123,7 +132,6 @@ public class SearchActivity extends BaseMvpActivity<GameSearchView, SearchActivi
 
     @Override
     public void showProgressBar() {
-        progressBarVisibility = View.VISIBLE;
         YoYo.with(new SlideInDownAnimatorNoFade())
                 .interpolate(new AccelerateDecelerateInterpolator())
                 .duration(300)
@@ -138,7 +146,6 @@ public class SearchActivity extends BaseMvpActivity<GameSearchView, SearchActivi
 
     @Override
     public void hideProgressBar() {
-        progressBarVisibility = View.GONE;
         YoYo.with(new SlideOutUpAnimatorNoFade())
                 .interpolate(new AccelerateDecelerateInterpolator())
                 .duration(300)
@@ -149,5 +156,20 @@ public class SearchActivity extends BaseMvpActivity<GameSearchView, SearchActivi
                     }
                 })
                 .playOn(binding.progressBar);
+    }
+
+    @Override
+    public void focusOnSearchViewAndShowKeyboard() {
+        searchMenuItem.expandActionView();
+    }
+
+    @Override
+    public void clearSearchViewFocus() {
+        searchView.clearFocus();
+    }
+
+    @Override
+    public void setSearchQuery(String query) {
+        searchView.setQuery(query, false);
     }
 }
