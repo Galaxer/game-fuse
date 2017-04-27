@@ -74,4 +74,20 @@ class SearchActivityPresenter extends MvpNullObjectBasePresenter<GameSearchView>
             searchRequest.unsubscribe();
         }
     }
+
+    /**
+     * Update the search view state including query, keyboard visibility, and focus.
+     * @param query Query to set in the search view
+     * @param searchViewHasFocus Whether the search view should have focus
+     */
+    void updateSearchViewState(String query, boolean searchViewHasFocus) {
+        if (query != null && query.length() > 0) {
+            getView().focusOnSearchViewAndShowKeyboard();
+            getView().setSearchQuery(query);
+        }
+
+        if (!searchViewHasFocus) {
+            getView().clearSearchViewFocus();
+        }
+    }
 }
