@@ -77,6 +77,7 @@ public class SearchActivity extends BaseMvpActivity<GameSearchView, SearchActivi
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                searchView.clearFocus();
                 getPresenter().newSearch(query);
                 return true;
             }
