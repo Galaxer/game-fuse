@@ -41,6 +41,7 @@ class SearchActivityPresenter extends MvpNullObjectBasePresenter<GameSearchView>
                 .subscribe(new Subscriber<Response<SearchResults>>() {
                     @Override
                     public final void onCompleted() {
+                        getView().hideProgressBar();
                     }
 
                     @Override
@@ -60,26 +61,9 @@ class SearchActivityPresenter extends MvpNullObjectBasePresenter<GameSearchView>
      * @param query Text to be searched for.
      */
     void newSearch(String query) {
+        getView().showProgressBar();
         cancelSearch();
         search(query);
-    }
-
-    /**
-     * If an existing search is in progress, let it continue and don't perform a new search.
-     * @param query Text to be searched for.
-     */
-    void continuedSearch(String query) {
-        if (!isSearching()) {
-            search(query);
-        }
-    }
-
-    /**
-     * Checks is there is a search in progress.
-     * @return true if there's a search in progress, false if there isn't.
-     */
-    private boolean isSearching() {
-        return searchRequest != null && !searchRequest.isUnsubscribed();
     }
 
     /**
