@@ -9,4 +9,6 @@ import java.util.List;
 interface GameSearchView extends MvpView {
     void showSearchResults(List<SearchResult> searchResults);
     void showSearchError();
+    void showProgressBar();
+    void hideProgressBar();
 }

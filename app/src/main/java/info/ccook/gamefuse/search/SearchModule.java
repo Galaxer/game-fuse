@@ -1,8 +1,6 @@
 package info.ccook.gamefuse.search;
 
 import android.ccook.info.giantbombapi.Endpoints;
-import android.content.Context;
-import android.support.v7.widget.LinearLayoutManager;
 
 import dagger.Module;
 import dagger.Provides;
@@ -22,12 +20,6 @@ class SearchModule {
     @PerActivity
     SearchActivityPresenter provideSearchPresenter(Endpoints endpoints, AppConfig config) {
        return new SearchActivityPresenter(endpoints, config);
-    }
-
-    @Provides
-    @PerActivity
-    LinearLayoutManager provideLayoutManager(Context context) {
-        return new LinearLayoutManager(context);
     }
 
     @Provides

@@ -41,8 +41,11 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:25.3.0'
-    compile 'com.android.support:design:25.3.0'
+
+    // Android support libraries
+    compile 'com.android.support:support-compat:25.3.1'
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:design:25.3.1'
 
     // Model-View-Presenter (MVP) library
     compile 'com.hannesdorfmann.mosby3:mvp:3.0.2'
@@ -62,6 +65,17 @@ dependencies {
 
     // Firebase remote config
     compile 'com.google.firebase:firebase-config:10.2.0'
+
+    // Library for better Material progress bars
+    compile 'me.zhanghai.android.materialprogressbar:library:1.4.1'
+
+    // Reduce boilerplate when saving state
+    compile 'com.evernote:android-state:1.0.6'
+    annotationProcessor 'com.evernote:android-state-processor:1.0.6'
+
+    // Animations
+    compile 'com.daimajia.easing:library:2.0@aar'
+    compile 'com.daimajia.androidanimations:library:2.2@aar'
 
     // Testing
     testCompile 'junit:junit:4.12'
