@@ -41,7 +41,6 @@ class SearchActivityPresenter extends MvpNullObjectBasePresenter<GameSearchView>
                 .subscribe(new Subscriber<Response<SearchResults>>() {
                     @Override
                     public final void onCompleted() {
-                        getView().hideProgressBar();
                     }
 
                     @Override
@@ -52,6 +51,7 @@ class SearchActivityPresenter extends MvpNullObjectBasePresenter<GameSearchView>
                     @Override
                     public final void onNext(Response<SearchResults> resultsResponse) {
                         getView().showSearchResults(resultsResponse.body().results());
+                        getView().hideProgressBar();
                     }
                 });
     }
@@ -61,7 +61,6 @@ class SearchActivityPresenter extends MvpNullObjectBasePresenter<GameSearchView>
      * @param query Text to be searched for.
      */
     void newSearch(String query) {
-        getView().showProgressBar();
         cancelSearch();
         search(query);
     }
@@ -82,12 +81,12 @@ class SearchActivityPresenter extends MvpNullObjectBasePresenter<GameSearchView>
      */
     void updateSearchViewState(String query, boolean searchViewHasFocus) {
         if (query != null && query.length() > 0) {
-            getView().focusOnSearchViewAndShowKeyboard();
+            getView().focusOnSearchAndShowKeyboard();
             getView().setSearchQuery(query);
         }
 
         if (!searchViewHasFocus) {
-            getView().clearSearchViewFocus();
+            getView().clearSearchFocus();
         }
     }
 }

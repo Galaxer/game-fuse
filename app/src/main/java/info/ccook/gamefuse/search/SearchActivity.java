@@ -40,7 +40,7 @@ public class SearchActivity extends BaseMvpActivity<GameSearchView, SearchActivi
     @Inject SearchResultsAdapter searchResultsAdapter;
 
     @State ArrayList<SearchResult> searchResults = new ArrayList<>();
-    @State int progressBarVisibility;
+    @State int progressBarVisibility = View.INVISIBLE;
     @State String searchQuery;
     @State boolean searchViewHasFocus;
 
@@ -83,6 +83,7 @@ public class SearchActivity extends BaseMvpActivity<GameSearchView, SearchActivi
             @Override
             public boolean onQueryTextSubmit(String query) {
                 searchView.clearFocus();
+                showProgressBar();
                 getPresenter().newSearch(query);
                 return true;
             }
@@ -108,7 +109,6 @@ public class SearchActivity extends BaseMvpActivity<GameSearchView, SearchActivi
         searchResults = new ArrayList<>(searchResultsAdapter.getSearchResults());
         searchQuery = searchView.getQuery().toString();
         searchViewHasFocus = searchView.hasFocus();
-        progressBarVisibility = binding.progressBar.getVisibility();
         StateSaver.saveInstanceState(this, outState);
     }
 
@@ -132,6 +132,7 @@ public class SearchActivity extends BaseMvpActivity<GameSearchView, SearchActivi
 
     @Override
     public void showProgressBar() {
+        progressBarVisibility = View.VISIBLE;
         YoYo.with(new SlideInDownAnimatorNoFade())
                 .interpolate(new AccelerateDecelerateInterpolator())
                 .duration(300)
@@ -146,6 +147,7 @@ public class SearchActivity extends BaseMvpActivity<GameSearchView, SearchActivi
 
     @Override
     public void hideProgressBar() {
+        progressBarVisibility = View.INVISIBLE;
         YoYo.with(new SlideOutUpAnimatorNoFade())
                 .interpolate(new AccelerateDecelerateInterpolator())
                 .duration(300)
@@ -159,12 +161,12 @@ public class SearchActivity extends BaseMvpActivity<GameSearchView, SearchActivi
     }
 
     @Override
-    public void focusOnSearchViewAndShowKeyboard() {
+    public void focusOnSearchAndShowKeyboard() {
         searchMenuItem.expandActionView();
     }
 
     @Override
-    public void clearSearchViewFocus() {
+    public void clearSearchFocus() {
         searchView.clearFocus();
     }
 
