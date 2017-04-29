@@ -32,7 +32,7 @@ public class SearchActivityPresenterTest {
         @Test
         public void testNullQuery_NoFocus() {
             presenter.updateSearchViewState(null, false);
-            Mockito.verify(view, Mockito.only()).clearSearchViewFocus();
+            Mockito.verify(view, Mockito.only()).clearSearchFocus();
         }
 
         @Test
@@ -44,23 +44,23 @@ public class SearchActivityPresenterTest {
         @Test
         public void testEmptyQuery_NoFocus() {
             presenter.updateSearchViewState(null, false);
-            Mockito.verify(view, Mockito.only()).clearSearchViewFocus();
+            Mockito.verify(view, Mockito.only()).clearSearchFocus();
         }
 
         @Test
         public void testQuery_NoFocus() {
             presenter.updateSearchViewState(query, false);
-            Mockito.verify(view, Mockito.times(1)).focusOnSearchViewAndShowKeyboard();
+            Mockito.verify(view, Mockito.times(1)).focusOnSearchAndShowKeyboard();
             Mockito.verify(view, Mockito.times(1)).setSearchQuery(query);
-            Mockito.verify(view, Mockito.times(1)).clearSearchViewFocus();
+            Mockito.verify(view, Mockito.times(1)).clearSearchFocus();
         }
 
         @Test
         public void testQuery_HasFocus() {
             presenter.updateSearchViewState(query, true);
-            Mockito.verify(view, Mockito.times(1)).focusOnSearchViewAndShowKeyboard();
+            Mockito.verify(view, Mockito.times(1)).focusOnSearchAndShowKeyboard();
             Mockito.verify(view, Mockito.times(1)).setSearchQuery(query);
-            Mockito.verify(view, Mockito.times(0)).clearSearchViewFocus();
+            Mockito.verify(view, Mockito.times(0)).clearSearchFocus();
         }
     }
 }

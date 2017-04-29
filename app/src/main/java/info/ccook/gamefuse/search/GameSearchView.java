@@ -11,7 +11,7 @@ interface GameSearchView extends MvpView {
     void showSearchError();
     void showProgressBar();
     void hideProgressBar();
-    void focusOnSearchViewAndShowKeyboard();
-    void clearSearchViewFocus();
+    void focusOnSearchAndShowKeyboard();
+    void clearSearchFocus();
     void setSearchQuery(String query);
 }
